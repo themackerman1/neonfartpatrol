@@ -113,7 +113,9 @@ For database schema changes, edit `db/schema.ts` and run `npm run db:generate`. 
 - **Desktop:** WASD or arrow keys to walk; Space to fart; C to cleanse your own doorstep.
 - **Audio:** unlocks after the first interaction; use the Sound button to mute.
 
-Farts recharge for one second. Cleansing recharges for two seconds. Rooms expire after 24 hours without activity.
+Tap and release Fart for a normal fart, or hold it until Release MEGA appears (one second of server-confirmed charging). Mega farts have a larger hit/house-tag radius and recharge for 2.5 seconds; normal farts recharge for one second. Charging slows movement to 65%. Hits slow rivals to 50% speed for one second and leave a green trail; a 2.5-second immunity window prevents repeated slowdown. Moving and charging/farting work together on mobile. Hold Space to charge on desktop.
+
+Rooms play a best-of-five series: round wins persist when selecting Next round, and everyone clicks Ready again. Three wins ends the series early; otherwise the highest score after five rounds wins, with tied leaders sharing victory. New series and the host's Restart match reset series scores. Cleansing recharges for two seconds. Rooms expire after 24 hours without activity.
 
 ## Project contents
 

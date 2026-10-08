@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
-test('mobile client renders lobby, active four-player scene, pause and finished states',()=>{const elements={};const drawing=new Proxy({},{get:()=>()=>{}});function element(){return{style:{},setPointerCapture(){},hidden:false,value:'0',textContent:'',setAttribute(){},replaceChildren(){},appendChild(){},focus(){},getContext:()=>drawing,getBoundingClientRect:()=>({width:390,height:550,left:0,top:0})};}const storage={getItem:()=>null,setItem(){}};const env={document:{getElementById:id=>elements[id]??=element(),body:{dataset:{}},createElement:element,addEventListener(){},activeElement:null},window:{addEventListener(){}},navigator:{},localStorage:storage,sessionStorage:storage,crypto,URL,location:{href:'https://example.test/'},setTimeout:()=>1,setInterval:()=>1,clearInterval(){},clearTimeout(){},requestAnimationFrame(){},ResizeObserver:class{constructor(f){this.f=f;}observe(){this.f();}},devicePixelRatio:1,AbortController,console};vm.createContext(env);vm.runInContext(fs.readFileSync('public/game.js','utf8'),env);vm.runInContext(`const players=NAMES.map((name,i)=>({slot:i,name,x:350+i*34,y:885,ready:true,points:0,progress:0,online:true}));credentials={code:'ABC234',token:'t'};socketReady=true;apply({slot:2,state:{revision:1,code:'ABC234',phase:'playing',winner:null,marks:[[],[],[],[]],events:[],players,paused:false}},true);frame(16);if(greet.disabled||$('lobby').hidden!==true||player.x!==418)throw Error('Active UI failed');apply({slot:2,state:{...match,revision:2,paused:true}});frame(32);if(!greet.disabled||!clean.disabled)throw Error('Paused UI failed');apply({slot:2,state:{...match,revision:3,paused:false,phase:'finished',winner:1}});frame(48);if(finish.hidden||!$('winnerTitle').textContent.includes('NICK'))throw Error('Winner UI failed');`,env);assert.match(elements.roster.innerHTML,/MATT/);assert.match(elements.roster.innerHTML,/MIKE/);
-vm.runInContext("globalThis.touchActions=[];action=kind=>touchActions.push(kind)",env);
+test('mobile client renders lobby, active four-player scene, pause and finished states',async()=>{const elements={};const drawing=new Proxy({},{get:()=>()=>{}});function element(){return{style:{},setPointerCapture(){},hidden:false,value:'0',textContent:'',setAttribute(){},replaceChildren(){},appendChild(){},focus(){},getContext:()=>drawing,getBoundingClientRect:()=>({width:390,height:550,left:0,top:0})};}const storage={getItem:()=>null,setItem(){}};const env={document:{getElementById:id=>elements[id]??=element(),body:{dataset:{}},createElement:element,addEventListener(){},activeElement:null},window:{addEventListener(){}},navigator:{},localStorage:storage,sessionStorage:storage,crypto,URL,location:{href:'https://example.test/'},setTimeout:()=>1,setInterval:()=>1,clearInterval(){},clearTimeout(){},requestAnimationFrame(){},ResizeObserver:class{constructor(f){this.f=f;}observe(){this.f();}},devicePixelRatio:1,AbortController,performance,console};vm.createContext(env);vm.runInContext(fs.readFileSync('public/game.js','utf8'),env);vm.runInContext(`const players=NAMES.map((name,i)=>({slot:i,name,x:350+i*34,y:885,ready:true,points:0,progress:0,online:true}));credentials={code:'ABC234',token:'t'};socketReady=true;apply({slot:2,state:{revision:1,code:'ABC234',phase:'playing',winner:null,marks:[[],[],[],[]],events:[],players,paused:false}},true);frame(16);if(greet.disabled||$('lobby').hidden!==true||player.x!==418)throw Error('Active UI failed');apply({slot:2,state:{...match,revision:2,paused:true}});frame(32);if(!greet.disabled||!clean.disabled)throw Error('Paused UI failed');apply({slot:2,state:{...match,revision:3,paused:false,phase:'finished',winner:1}});frame(48);if(finish.hidden||!$('winnerTitle').textContent.includes('NICK'))throw Error('Winner UI failed');`,env);assert.match(elements.roster.innerHTML,/MATT/);assert.match(elements.roster.innerHTML,/MIKE/);
+vm.runInContext("match.phase='playing';match.paused=false;globalThis.touchActions=[];action=kind=>touchActions.push(kind)",env);
 elements.greet.disabled=false;
 elements.stick.onpointerdown({pointerId:1,pointerType:'touch',clientX:300,clientY:250});
 let prevented=false;
@@ -8,13 +8,15 @@ elements.greet.onpointerdown({pointerId:2,pointerType:'touch',preventDefault(){p
 assert.equal(prevented,true);
 assert.equal(vm.runInContext('pointer',env),1);
 assert.notEqual(vm.runInContext('joy.x',env),0);
-assert.equal(vm.runInContext("touchActions.join(',')",env),'fart');
+assert.equal(vm.runInContext("touchActions.join(',')",env),'charge');
+await elements.greet.onpointerup({pointerId:2});
+assert.equal(vm.runInContext("touchActions.join(',')",env),'charge,fart');
 elements.greet.onclick({pointerType:'touch',detail:1});
-assert.equal(vm.runInContext('touchActions.length',env),1);
-elements.greet.onclick({detail:0});
 assert.equal(vm.runInContext('touchActions.length',env),2);
+elements.greet.onclick({detail:0});
+assert.equal(vm.runInContext('touchActions.length',env),3);
 elements.greet.disabled=true;
 elements.greet.onpointerdown({pointerType:'touch',preventDefault(){}});
-assert.equal(vm.runInContext('touchActions.length',env),2);
+assert.equal(vm.runInContext('touchActions.length',env),3);
 });
 
