@@ -8,7 +8,7 @@
     {
       "binding": "DB",
       "database_name": "neon-fart-patrol",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "8d915674-a5df-47a0-9d2b-cca4e5c010e4",
       "migrations_dir": "drizzle"
     }
   ]
