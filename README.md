@@ -4,12 +4,12 @@ A mobile-friendly, top-down cyberpunk game for **2–4 players on separate devic
 
 ## Game rules
 
-1. Fart on all four houses to win.
+1. Fart on all three opponent houses and keep your own house clean to win.
 2. Cleanse your house when its farted on.
 3. Fart on each other to score points.
 4. The points don't count
 
-Each player owns MATT'S, NICK'S, SEAN'S, or MIKE'S HOUSE. You win by having your toxic mark on all four houses at the same time. Cleansing your own doorstep removes everyone's marks from that house. Player-hit points are just for fun and never decide the winner.
+Each player owns MATT'S, NICK'S, SEAN'S, or MIKE'S HOUSE. You win by having your toxic mark on all three other houses at the same time while your own house has no toxic marks. Cleansing your home can complete the win. The three other houses remain targets even in a two- or three-player match. Cleansing your own doorstep removes everyone's marks from that house. Player-hit points are just for fun and never decide the winner.
 
 Create a room, share its invite/code, and pick a different house on each device. At least two players must join. **Every joined player must be online and click Ready**; the game then starts automatically. Joined players who disconnect pause the match until they reconnect. The host can restart the match or remove a player who has been offline for 10 seconds. Hosting transfers to an online player after the host has been offline for 20 seconds. Empty seats do not pause two- or three-player games. New players cannot join a match already in progress.
 
