@@ -6,10 +6,10 @@ A mobile-friendly, top-down cyberpunk game for **2–4 players on separate devic
 
 1. Fart on all three opponent houses and keep your own house clean to win.
 2. Cleanse your house when its farted on.
-3. Fart on each other to score points.
-4. The points don't count
+3. Fart on rivals to slow them down. Hold Fart for a mega fart.
+4. Best of 5 rounds. Most round wins takes the series.
 
-Each player owns MATT'S, NICK'S, SEAN'S, or MIKE'S HOUSE. You win by having your toxic mark on all three other houses at the same time while your own house has no toxic marks. Cleansing your home can complete the win. The three other houses remain targets even in a two- or three-player match. Cleansing your own doorstep removes everyone's marks from that house. Player-hit points are just for fun and never decide the winner.
+Each player enters a name (up to 16 characters) and chooses the pink, cyan, gold, or purple house. Names appear on runners, houses, rosters, and winner screens and are remembered on the device. You win by having your toxic mark on all three other houses at the same time while your own house has no toxic marks. Cleansing your home can complete the win. The three other houses remain targets even in a two- or three-player match. Cleansing your own doorstep removes everyone's marks from that house. Player hits slow opponents and award no points. Only round wins count toward the series.
 
 Create a room, share its invite/code, and pick a different house on each device. At least two players must join. **Every joined player must be online and click Ready**; the game then starts automatically. Joined players who disconnect pause the match until they reconnect. The host can restart the match or remove a player who has been offline for 10 seconds. Hosting transfers to an online player after the host has been offline for 20 seconds. Empty seats do not pause two- or three-player games. New players cannot join a match already in progress.
 
