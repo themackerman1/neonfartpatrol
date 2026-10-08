@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
@@ -12,7 +14,8 @@
     "db:create": "wrangler d1 create neon-fart-patrol",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node scripts/check-config.mjs && wrangler d1 migrations apply DB --remote",
-    "deploy": "npm test && npm run build && npm run db:migrate && wrangler deploy"
+    "deploy": "npm test && npm run build && wrangler deploy",
+    "test:integration": "npm run build && node tests/socket.integration.mjs"
   },
   "devDependencies": {
     "drizzle-kit": "0.31.10",

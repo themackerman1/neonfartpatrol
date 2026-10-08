@@ -11,5 +11,21 @@
       "database_id": "8d915674-a5df-47a0-9d2b-cca4e5c010e4",
       "migrations_dir": "drizzle"
     }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ROOMS",
+        "class_name": "NeonRoom"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "rooms-v1",
+      "new_sqlite_classes": [
+        "NeonRoom"
+      ]
+    }
   ]
 }

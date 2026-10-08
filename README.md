@@ -11,11 +11,11 @@ A mobile-friendly, top-down cyberpunk game for **2–4 players on separate devic
 
 Each player owns MATT'S, NICK'S, SEAN'S, or MIKE'S HOUSE. You win by having your toxic mark on all four houses at the same time. Cleansing your own doorstep removes everyone's marks from that house. Player-hit points are just for fun and never decide the winner.
 
-Create a room, share its invite/code, and pick a different house on each device. At least two players must join. **Every joined player must be online and click Ready**; the game then starts automatically. Joined players who disconnect pause the match until they reconnect. Empty seats do not pause two- or three-player games. New players cannot join a match already in progress.
+Create a room, share its invite/code, and pick a different house on each device. At least two players must join. **Every joined player must be online and click Ready**; the game then starts automatically. Joined players who disconnect pause the match until they reconnect. The host can restart the match or remove a player who has been offline for 10 seconds. Hosting transfers to an online player after the host has been offline for 20 seconds. Empty seats do not pause two- or three-player games. New players cannot join a match already in progress.
 
 ## Where the game runs
 
-**GitHub stores the source. Cloudflare Workers + D1 host the playable multiplayer game.** GitHub Pages alone cannot run this game's server or shared database.
+**GitHub stores the source. Cloudflare Workers + Durable Objects host the playable multiplayer game.** GitHub Pages alone cannot run this game's server or shared database.
 
 The package is independent of ChatGPT. It contains no account credentials, production database contents, or ChatGPT hosting identifiers. Deploying it creates a separate public game with its own database. It does not change the original game link.
 
@@ -63,7 +63,7 @@ Then run:
 npm run deploy
 ```
 
-This runs the tests, builds the game, applies the database migration, and publishes the Worker. Wrangler prints your actual public URL, normally shaped like:
+This runs the tests, builds the game, and publishes the Worker. Wrangler creates the Durable Object storage automatically. D1 is retained to recover rooms from the previous version; do not rerun the initial D1 migration on an existing manually initialized database. Wrangler prints your actual public URL, normally shaped like:
 
 ```text
 https://neon-fart-patrol.YOUR-SUBDOMAIN.workers.dev
@@ -96,7 +96,7 @@ npm run dev
 
 This builds the game, applies the migrations to a local D1 database, and starts Wrangler's local server. Local data is separate from the deployed game's data. Wrangler prints the local URL. Use the public deployment to test separate phones easily.
 
-Edit `public/game.js` for controls, rendering, audio, and lobby behavior. Edit `public/index.html` for layout and styles. Edit `worker/rules.js` for authoritative game rules and `worker/api.js` for room synchronization.
+Edit `public/game.js` for controls, rendering, audio, and lobby behavior. Edit `public/index.html` for layout and styles. Edit `worker/rules.js` for authoritative game rules and `worker/room.js` for WebSocket synchronization and recovery controls.
 
 ```bash
 npm test
@@ -122,7 +122,7 @@ Farts recharge for one second. Cleansing recharges for two seconds. Rooms expire
 | `public/index.html` | Mobile layout, lobby instructions, visual player indicators |
 | `public/game.js` | Canvas game, controls, client synchronization, synthesized sound |
 | `worker/rules.js` | Server-authoritative multiplayer rules |
-| `worker/api.js` | Room creation, joining, ready checks, state updates, actions |
+| `worker/api.js` | Room creation, joining, routing to the room server |
 | `db/schema.ts`, `drizzle/` | D1 schema and versioned migrations |
 | `scripts/build.mjs` | Builds a self-contained Cloudflare Worker |
 | `wrangler.json` | Public hosting and D1 configuration |
@@ -135,3 +135,11 @@ Farts recharge for one second. Cleansing recharges for two seconds. Rooms expire
 - [Cloudflare D1 setup](https://developers.cloudflare.com/d1/get-started/)
 - [D1 migrations](https://developers.cloudflare.com/d1/reference/migrations/)
 - [GitHub Pages capabilities](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
+
+## Updating the existing public game
+
+Replace the source files in this repository and commit to your Cloudflare-connected branch. Keep your existing D1 database ID. Cloudflare must run `npm run build` followed by `npx wrangler deploy`; uploading only the HTML will not update the multiplayer server. The Durable Object binding and its `rooms-v1` migration in `wrangler.json` must be included.
+
+Real-time gameplay now uses WebSockets. Ready clicks show **Saving…** until the server confirms them and are retried after reconnection. Open **Room controls** during a match to restart it, remove an offline player, or leave. Removing a player when fewer than two remain returns everyone to the lobby.
+
+Run `npm run test:integration` after `npm ci` to exercise two actual Cloudflare WebSocket clients locally. Automated checks do not replace testing touch controls and sound on physical phones.
