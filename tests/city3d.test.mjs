@@ -17,3 +17,4 @@ const fog=v=>{const m=v.getVP(),depth=m[3]*x+m[7]*y+m[11]*z+m[15]-v.getFogOffset
 assert.ok(Math.abs(fog(desktop)-fog(portrait))<.000001,'same subject keeps the same brightness in portrait');
 }
 });
+test('house shield and cyan cleanse charge render and expire without affecting the camera',()=>{const v=view(390,844),state={players,marks:[[],[],[],[]],particles:[],now:10000,slot:0};v.city.render(state);const base=v.draws.slice(),camera=Array.from(v.getVP());v.draws.length=0;v.city.render({...state,shieldUntil:[12000,0,0,0],players:players.map(p=>({...p,cleanChargeStarted:9500}))});assert.ok(v.draws[0]>base[0],'cleanse charge rings appear');assert.ok(v.draws[1]>base[1],'cyan shield is drawn');assert.deepEqual(Array.from(v.getVP()),camera);v.draws.length=0;v.city.render({...state,now:12000,shieldUntil:[12000,0,0,0]});assert.equal(v.draws[1],base[1],'shield disappears at expiry');});
