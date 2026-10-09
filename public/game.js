@@ -94,3 +94,7 @@ $('instructionsContinue').onclick=()=>{$('instructions').close();enterLobby();};
 for(const type of ['gesturestart','gesturechange','gestureend'])document.addEventListener(type,e=>e.preventDefault(),{passive:false});
 document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
 
+
+// Persistent mobile scroll hints, including browsers that hide native scrollbars.
+function updateScrollIndicator(scroller,track,thumb){const viewport=scroller.clientHeight,total=scroller.scrollHeight;track.hidden=!(viewport>0&&total>viewport+1);if(track.hidden)return;const length=Math.max(0,viewport-24),size=Math.min(length,Math.max(24,length*viewport/total)),progress=Math.max(0,Math.min(1,scroller.scrollTop/(total-viewport)));thumb.style.height=size+'px';thumb.style.transform='translateY('+((length-size)*progress)+'px)';}
+for(const prefix of ['instructions','lobby']){const scroller=$(prefix+'Scroller'),track=$(prefix+'ScrollTrack'),thumb=$(prefix+'ScrollThumb'),update=()=>updateScrollIndicator(scroller,track,thumb);scroller.onscroll=update;new ResizeObserver(update).observe(scroller);if(typeof MutationObserver!=='undefined')new MutationObserver(update).observe(scroller,{childList:true,subtree:true,characterData:true,attributes:true});update();}
