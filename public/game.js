@@ -79,7 +79,11 @@ function stopTitleMusic(){musicWanted=false;musicAttempt++;if(titleTrack)titleTr
 async function toggleMusic(){if(musicWanted){stopTitleMusic();return;}if(!titleTrack){titleTrack=new Audio('/title-music.mp3');titleTrack.loop=true;titleTrack.volume=.55;titleTrack.preload='none';}musicWanted=true;const attempt=++musicAttempt;$('musicStatus').textContent='';try{await titleTrack.play();if(attempt!==musicAttempt)return;if(!musicWanted)titleTrack.pause();}catch{if(attempt!==musicAttempt)return;musicWanted=false;if(document.body.dataset.screen==='title')$('musicStatus').textContent='Music could not play. Tap to try again.';else toast('Music could not play. Tap Music to try again.');}updateTitleMusic();}
 $('titleMusic').onclick=toggleMusic;$('music').onclick=toggleMusic;
 window.addEventListener('pagehide',stopTitleMusic);
-$('playNow').onclick=()=>{unlock();sound('ready');document.body.dataset.screen='lobby';$('titleScreen').hidden=true;$('gameShell').inert=false;resize();if(credentials)connectSocket();else $('playerName').focus();};
+function enterLobby(){document.body.dataset.screen='lobby';$('titleScreen').hidden=true;$('gameShell').inert=false;resize();if(credentials)connectSocket();else $('playerName').focus();}
+$('playNow').onclick=()=>{unlock();sound('ready');$('instructions').showModal();};
+$('instructionsBack').onclick=()=>{$('instructions').close();};
+$('instructions').onclose=()=>{if(document.body.dataset.screen==='title')$('playNow').focus();};
+$('instructionsContinue').onclick=()=>{$('instructions').close();enterLobby();};
 
 // Suppress browser zoom/rotation without blocking simultaneous game controls.
 for(const type of ['gesturestart','gesturechange','gestureend'])document.addEventListener(type,e=>e.preventDefault(),{passive:false});
