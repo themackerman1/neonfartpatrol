@@ -1,5 +1,5 @@
 export const NAMES=['PINK','CYAN','GOLD','PURPLE'];
-export const HOUSES=[{x:75,y:155},{x:525,y:155},{x:75,y:610},{x:525,y:610}];
+export const HOUSES=[{x:52.5,y:132.25},{x:547.5,y:132.25},{x:52.5,y:632.75},{x:547.5,y:632.75}];
 export const ONLINE_MS=7000;
 export function online(p,now){return !!p&&(p.bot===true||(p.connected!==false&&now-p.lastSeen<ONLINE_MS));}
 export function slowFactor(p,now){return now<(p.slowedUntil||0)?(p.slowMultiplier??.5):1;}
